@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { HeroComponent } from '../components/hero/hero.component';
 import { StatsComponent } from '../components/stats/stats.component';
@@ -9,7 +8,6 @@ import { MapComponent } from '../components/map/map.component';
 @Component({
   selector: 'app-landing-page',
   imports: [
-    HeaderComponent,
     FooterComponent,
     HeroComponent,
     StatsComponent,
