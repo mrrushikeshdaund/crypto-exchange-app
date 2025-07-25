@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UsersCreateDto } from './users.dto';
+import { UsersCreateDto, UsersLoginDto } from './users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -14,6 +14,11 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Post('/login')
+  login(@Body() body: UsersLoginDto) {
+    return this.usersService.login(body);
   }
 
   @Get(':id')

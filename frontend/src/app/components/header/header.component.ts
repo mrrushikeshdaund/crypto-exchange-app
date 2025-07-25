@@ -17,4 +17,8 @@ export class HeaderComponent {
   onSignUpNavigate() {
     this.router.navigate(['auth', 'register']);
   }
+
+  onLogoClick() {
+    this.router.navigate(['home']);
+  }
 }

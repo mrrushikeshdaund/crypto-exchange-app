@@ -9,3 +9,8 @@ export class UsersUpdateDto {
   email?: string;
   password?: string;
 }
+
+export class UsersLoginDto {
+  email: string;
+  password: string;
+}

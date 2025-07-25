@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -17,7 +17,11 @@ import { UserService } from '../../services/user.service';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -29,8 +33,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.userService.registerUser(this.registerForm.value).subscribe({
         next: (response) => {
-          console.log('Registration successful:', response);
-          // Navigate to login or home page after successful registration
+          this.router.navigate(['auth/login']);
         },
         error: (error) => {
           console.error('Registration failed:', error);

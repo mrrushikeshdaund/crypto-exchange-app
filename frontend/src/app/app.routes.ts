@@ -17,4 +17,11 @@ export const routes: Routes = [
         (m) => m.LandingPageComponent
       ),
   },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./dashboard-page/dashboard-page.component').then(
+        (m) => m.DashboardPageComponent
+      ),
+  },
 ];

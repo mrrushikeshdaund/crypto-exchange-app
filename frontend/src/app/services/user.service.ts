@@ -13,4 +13,9 @@ export class UserService {
     const url = `${environment.baseUrl}${environment.users.register}`;
     return this.http.post(url, userObj);
   }
+
+  loginUser(userObj: user) {
+    const url = `${environment.baseUrl}${environment.users.login}`;
+    return this.http.post(url, userObj);
+  }
 }
