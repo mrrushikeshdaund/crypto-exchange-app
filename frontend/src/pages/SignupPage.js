@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SignupPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-6">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-8">
@@ -27,6 +33,7 @@ const SignupPage = () => {
             <input
               type="text"
               id="name"
+              onClick={(e) => setName(e.target.value)}
               placeholder="John Doe"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -43,6 +50,7 @@ const SignupPage = () => {
             <input
               type="email"
               id="email"
+              onClick={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -59,6 +67,7 @@ const SignupPage = () => {
             <input
               type="password"
               id="password"
+              onClick={(e) => setPassword(e.target.value)}
               placeholder="********"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -75,6 +84,7 @@ const SignupPage = () => {
             <input
               type="password"
               id="confirmPassword"
+              onClick={(e) => setConfirmPassword(e.target.value)}
               placeholder="********"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
