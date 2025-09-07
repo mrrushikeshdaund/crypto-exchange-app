@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Markets", path: "/markets" },
@@ -12,6 +14,18 @@ const Header = () => {
     { name: "Wallet", path: "/wallet" },
     { name: "Support", path: "/support" },
   ];
+
+  // ✅ Check token on mount & whenever location changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    navigate("/login");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-lg">
@@ -37,7 +51,6 @@ const Header = () => {
               }`}
             >
               {link.name}
-              {/* Animated underline */}
               <span
                 className={`absolute left-0 -bottom-1 h-0.5 bg-yellow-400 transition-all duration-300 ${
                   location.pathname === link.path
@@ -49,20 +62,39 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Auth Buttons */}
+        {/* Auth Buttons (Desktop) */}
         <div className="hidden md:flex space-x-4">
-          <Link
-            to="/login"
-            className="px-4 py-2 rounded-xl border border-yellow-400 text-sm font-medium hover:bg-yellow-400 hover:text-black transition"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="px-4 py-2 rounded-xl bg-yellow-400 text-black font-semibold text-sm hover:bg-yellow-300 transition"
-          >
-            Sign Up
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link
+                to="/profile"
+                className="px-4 py-2 rounded-xl border border-yellow-400 text-sm font-medium hover:bg-yellow-400 hover:text-black transition"
+              >
+                Profile
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-4 py-2 rounded-xl border border-yellow-400 text-sm font-medium hover:bg-yellow-400 hover:text-black transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 rounded-xl bg-yellow-400 text-black font-semibold text-sm hover:bg-yellow-300 transition"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -93,20 +125,43 @@ const Header = () => {
           ))}
 
           <div className="flex flex-col space-y-3 pt-3 border-t border-gray-700">
-            <Link
-              to="/login"
-              className="px-4 py-2 rounded-lg border border-yellow-400 text-center hover:bg-yellow-400 hover:text-black transition"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-4 py-2 rounded-lg bg-yellow-400 text-black text-center font-semibold hover:bg-yellow-300 transition"
-              onClick={() => setIsOpen(false)}
-            >
-              Sign Up
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="px-4 py-2 rounded-lg border border-yellow-400 text-center hover:bg-yellow-400 hover:text-black transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className="px-4 py-2 rounded-lg bg-red-500 text-white text-center font-semibold hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-4 py-2 rounded-lg border border-yellow-400 text-center hover:bg-yellow-400 hover:text-black transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 rounded-lg bg-yellow-400 text-black text-center font-semibold hover:bg-yellow-300 transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

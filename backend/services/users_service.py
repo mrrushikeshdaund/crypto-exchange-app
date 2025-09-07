@@ -1,4 +1,5 @@
 from database.db_connection import get_db_connection, close_db_connection
+from middleware.auth_verify_token import create_access_token
 
 def user_login(email, password):
     conn = get_db_connection();
@@ -7,7 +8,9 @@ def user_login(email, password):
     user = cursor.fetchone()
     close_db_connection(conn)
     if user:
-        return {"status": "success", "message": "Login successful","data": dict(user)}
+        token_data = create_access_token(data={"sub": user["email"]})
+
+        return {"status": "success", "message": "Login successful","data": dict({"token": token_data, "user": dict(user)})}
     else:
         return {"status": "error", "message": "Invalid username or password","data": {}}
     

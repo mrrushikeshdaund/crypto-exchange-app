@@ -13,8 +13,8 @@ const LoginPage = () => {
       email: e.target.email.value,
       password: e.target.password.value,
     });
-    console.log("Response object ", response);
     if (response.status === "success") {
+      localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
     } else {
       alert("Login Failed: " + response.message);

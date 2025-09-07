@@ -6,6 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MarketPage from "./pages/MarketPage";
 import DashboardPage from "./pages/DashboardPage";
+import WalletPage from "./pages/WalletPage";
+import SupportPage from "./pages/SupportPage";
+import TradePage from "./pages/TradePage";
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/markets" element={<MarketPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/trade" element={<TradePage />} />
         </Routes>
       </Router>
     </>
