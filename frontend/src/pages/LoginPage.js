@@ -1,7 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/UsersService";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const handleLoginAction = async (e) => {
+    e.preventDefault();
+    console.log(e.target.email.value);
+    console.log(e.target.password.value);
+
+    const response = await login({
+      email: e.target.email.value,
+      password: e.target.password.value,
+    });
+    console.log("Response object ", response);
+    if (response.status === "success") {
+      navigate("/dashboard");
+    } else {
+      alert("Login Failed: " + response.message);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-6">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-8">
@@ -15,7 +33,7 @@ const LoginPage = () => {
         </p>
 
         {/* Form */}
-        <form className="mt-8 space-y-5">
+        <form className="mt-8 space-y-5" onSubmit={handleLoginAction}>
           <div>
             <label
               htmlFor="email"

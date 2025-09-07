@@ -1,12 +1,54 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from "../services/UsersService";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [checkBoxChecked, setCheckBoxChecked] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    if (!checkBoxChecked) {
+      alert("Please agree to the Terms & Conditions");
+      return;
+    }
+    e.preventDefault();
+    // Basic validation
+    if (!name || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    } else {
+      // Simulate successful signup
+      const response = await signup({
+        username: name,
+        email,
+        password,
+      });
+
+      console.log("Response object ", response);
+
+      alert(response.message);
+
+      // Reset form
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      navigate("/login");
+    }
+  };
+
+  const handleCheckBox = (e) => {
+    setCheckBoxChecked(e.target.checked);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-6">
@@ -21,7 +63,7 @@ const SignupPage = () => {
         </p>
 
         {/* Form */}
-        <form className="mt-8 space-y-5">
+        <div className="mt-8 space-y-5">
           {/* Full Name */}
           <div>
             <label
@@ -33,7 +75,7 @@ const SignupPage = () => {
             <input
               type="text"
               id="name"
-              onClick={(e) => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -50,7 +92,7 @@ const SignupPage = () => {
             <input
               type="email"
               id="email"
-              onClick={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -67,7 +109,7 @@ const SignupPage = () => {
             <input
               type="password"
               id="password"
-              onClick={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="********"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -84,7 +126,7 @@ const SignupPage = () => {
             <input
               type="password"
               id="confirmPassword"
-              onClick={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="********"
               className="mt-2 w-full px-4 py-3 rounded-xl bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-yellow-400 outline-none"
             />
@@ -92,7 +134,11 @@ const SignupPage = () => {
 
           {/* Terms */}
           <div className="flex items-center text-sm text-gray-400">
-            <input type="checkbox" className="accent-yellow-400 mr-2" />
+            <input
+              type="checkbox"
+              className="accent-yellow-400 mr-2"
+              onChange={handleCheckBox}
+            />
             <span>
               I agree to the{" "}
               <Link to="/terms" className="text-yellow-400 hover:underline">
@@ -103,12 +149,13 @@ const SignupPage = () => {
 
           {/* Signup Button */}
           <button
-            type="submit"
+            type="button"
+            onClick={handleSignup}
             className="w-full py-3 rounded-xl bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition"
           >
             Sign Up
           </button>
-        </form>
+        </div>
 
         {/* Divider */}
         <div className="flex items-center gap-2 my-6">
