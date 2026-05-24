@@ -31,7 +31,7 @@ jobs:
       - name: Run backend syntax checks and tests
         run: |
           python -m compileall backend
-          python -m pytest
+          python -m pytest backend/tests -v
 
   frontend:
     name: Frontend build and test
